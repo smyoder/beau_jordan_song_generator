@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Beau Song Generator</title>
+    <script src="js/generate.js"></script>
+  </head>
+  <body>
+    <h1>Beau Jordan Song Generator v1</h1>
+    <form>
+      <label for="fileGetter">Select all files in the ngrams folder:</label>
+      <input type="file" id="fileGetter" name="fileGetter" multiple>
+      <br/>
+      <div id="training" style="display: none;">
+        <input type="button" value="Train" onclick="trainModel();">
+      </div>
+      <div id="controls" style="display: none;">
+        <p id="modelInfo"></p>
+        <label for="numLines">Number of lines:</label>
+        <input type="text" id="numLines" style="width:3%" value="10">
+        <br/>
+        <label for="wackiness">Wackiness (weight for low probability pairs of words):</label>
+        <input type="range" min="0" max="100" value="50" name="wackiness" id="wackiness">
+        <input type="text" id="wackText" style="width:3%" value="50">
+        %
+        <br/>
+        <label for="coverWeight">Amount of text from covers:</label>
+        <input type="range" min="0" max="100" value="50" name="coverWeight" id="coverWeight">
+        <input type="text" id="coverText" style="width:3%" value="50">
+        %<br/>
+        <label for="nonsense">Nonsense (weight for nonexisting pairs of words):</label>
+        <input type="range" min="0" max="100" value="50" name="nonsense" id="nonsense">
+        <input type="text" id="nonsenseText" style="width:3%" value="50">
+        %<br/>
+        <input type="button" value="Generate" onclick="generateSong();">
+      </div>
+      <p id="song"></p>
+    </form>
+    <script>
+      linkSliders();
+      var fileGetter = document.getElementById("fileGetter");
+      fileGetter.onchange = function() {
+        document.getElementById("training").style.display = 'block';
+      };
+      document.getElementById("numLines").addEventListener('input', function (e) {
+        if(e.target.value != "") {
+          if(isNaN(e.target.value))
+            e.target.value = 1;
+          e.target.value = Math.max(1, e.target.value);
+        }
+      });
+    </script>
+  </body>
+</html>
