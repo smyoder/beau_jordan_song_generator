@@ -98,6 +98,7 @@ ModelV1.prototype.generate = function(numLines, wackiness, coverWeight, nonsense
   var currentToken = "^";
   var n = 0;
   var song = [];
+  var lineLength = 0;
   while(n < numLines) {
     var nonsenseFlag = Math.random() < nonsense;
     if(nonsenseFlag) {
@@ -139,12 +140,14 @@ ModelV1.prototype.generate = function(numLines, wackiness, coverWeight, nonsense
           currentToken = this.nextToken(this.nGrams.covers, oldToken, wackiness);
       }
     }
-    if(currentToken == "$") {
+    if(currentToken == "$" || lineLength > 30) {
         song.push("<br/>");
         currentToken = "^";
         n++;
+        lineLength = 0;
       } else {
         song.push(currentToken);
+        lineLength++;
       }
   }
   return song.join(" ");
